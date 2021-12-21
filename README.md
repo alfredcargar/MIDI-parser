@@ -1,2 +1,2 @@
 # MIDI-parser
-Read and parse MIDI files
+Read and parse MIDI files.
