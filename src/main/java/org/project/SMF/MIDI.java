@@ -1,6 +1,7 @@
 package org.project.SMF;
 
 import org.project.utility.LogsManager;
+import org.project.utility.Utility;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,8 @@ public class MIDI {
             e.printStackTrace();
         }
 
-        validate();
+        if (!validate()) return;
+
         List<Byte> headerData = new ArrayList<>();
         List<Byte> trackData = new ArrayList<>();
 
@@ -59,16 +61,17 @@ public class MIDI {
     /**
      * checks if header ID = MThd
      */
-    public void validate() {
+    public boolean validate() {
 
         LogsManager log = new LogsManager();
 
         for (int i = 0; i < MidiHeader.getID().length; i++) {
             if (content[i] != MidiHeader.getID()[i]) {
                 log.error("Not a valid MIDI file.");
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     /**
@@ -82,14 +85,18 @@ public class MIDI {
 
         List<Byte> content = new ArrayList<>();
 
-
         // the length of each chunk is defined in the second group of 4 bytes
-        String hex = String.format("%02X", trackData.get(4))
-                .concat(String.format("%02X", trackData.get(5))
-                .concat(String.format("%02X", trackData.get(6))
-                .concat(String.format("%02X", trackData.get(7)))));
+        String[] hex = Utility.byteToHex(new byte[]
+                {trackData.get(4), trackData.get(5), trackData.get(6), trackData.get(7)});
 
-        int length = Integer.parseInt(hex, 16);
+        String hexString = hex[0].concat(hex[1]).concat(hex[2]).concat(hex[3]);
+
+//        String hex = String.format("%02X", trackData.get(4))
+//                .concat(String.format("%02X", trackData.get(5))
+//                .concat(String.format("%02X", trackData.get(6))
+//                .concat(String.format("%02X", trackData.get(7)))));
+
+        int length = Integer.parseInt(hexString, 16);
 
         // read input from 0 to length+8, set it as content of midiTrack
 

@@ -5,13 +5,20 @@ import java.io.IOException;
 public class Utility {
 
 
-    public static String convertByteToHex(byte[] array) throws IOException {
+    /**
+     * formats a byte array in hexadecimal
+     * @param input
+     * @return
+     */
+    public static String[] byteToHex(byte[] input) {
 
-        StringBuilder sb = new StringBuilder();
+        int length = input.length;
+        String[] output = new String[length];
 
-        for (Byte element : array) {
-            sb.append(String.format("%02X ", element));
+        for (int i = 0; i < length; i ++) {
+            output[i] = String.format("%02X", input[i]);
         }
-        return sb.toString();
+
+        return output;
     }
 }
