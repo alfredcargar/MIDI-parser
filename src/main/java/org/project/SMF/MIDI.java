@@ -1,5 +1,7 @@
 package org.project.SMF;
 
+import org.project.utility.LogsManager;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,12 +28,15 @@ public class MIDI {
 
     public void readFile(String path) {
 
+        LogsManager log = new LogsManager();
+
         file = new File(path);
 
         try {
             content = Files.readAllBytes(file.toPath());
         }
         catch (IOException e) {
+            log.error("Failed to open file: " + path);
             e.printStackTrace();
         }
 
@@ -56,9 +61,12 @@ public class MIDI {
      */
     public void validate() {
 
+        LogsManager log = new LogsManager();
+
         for (int i = 0; i < MidiHeader.getID().length; i++) {
             if (content[i] != MidiHeader.getID()[i]) {
-                throw new IllegalArgumentException("Not a valid MIDI file.");
+                log.error("Not a valid MIDI file.");
+                return;
             }
         }
     }
