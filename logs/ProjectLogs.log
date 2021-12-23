@@ -1,1 +1,10 @@
 [INFO] 2021-12-22 18:38:02 [main] LogsManager - Finished reading MIDI file.
+[INFO] 2021-12-23 12:52:13 [main] LogsManager - Reading file MIDI: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-23 12:52:13 [main] LogsManager - MIDI file read successfully.
+[INFO] 2021-12-23 12:54:32 [main] LogsManager - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-23 12:54:32 [main] LogsManager - MIDI file read successfully.
+[INFO] 2021-12-23 15:29:58 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-23 16:49:31 [main] - MIDI file read successfully.
+[INFO] 2021-12-23 16:55:59 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-23 16:59:39 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-23 17:04:34 [main] - MIDI file read successfully.

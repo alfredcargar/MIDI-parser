@@ -22,26 +22,19 @@ public class MIDI {
     private File file;
 
 
-    public MIDI(String path) {
-        tracks = new ArrayList<>();
-        this.readFile(path);
+    public MIDI(File file) {
+        this.file = file;
     }
 
-    public void readFile(String path) {
-
-        LogsManager log = new LogsManager();
-
-        file = new File(path);
+    public void readFile(LogsManager log) {
 
         try {
             content = Files.readAllBytes(file.toPath());
         }
         catch (IOException e) {
-            log.error("Failed to open file: " + path);
+            log.error("Failed to open file: " + file.getPath());
             e.printStackTrace();
         }
-
-        if (!validate()) return;
 
         List<Byte> headerData = new ArrayList<>();
         List<Byte> trackData = new ArrayList<>();
@@ -52,6 +45,7 @@ public class MIDI {
         }
 
         header = new MidiHeader(headerData);
+        tracks = new ArrayList<>();
         splitTracks(trackData);
 
         //todo: read the content in both header and tracks, populating the fields
@@ -63,11 +57,8 @@ public class MIDI {
      */
     public boolean validate() {
 
-        LogsManager log = new LogsManager();
-
         for (int i = 0; i < MidiHeader.getID().length; i++) {
             if (content[i] != MidiHeader.getID()[i]) {
-                log.error("Not a valid MIDI file.");
                 return false;
             }
         }
@@ -75,7 +66,7 @@ public class MIDI {
     }
 
     /**
-     * splits the track content in bytes to a list of MidiTracks, populating this.tracks
+     * splits the track content in bytes to a list of MidiTracks, populating the tracks list
      * @param trackData
      */
     public void splitTracks(List<Byte> trackData) {
@@ -86,17 +77,18 @@ public class MIDI {
         List<Byte> content = new ArrayList<>();
 
         // the length of each chunk is defined in the second group of 4 bytes
-        String[] hex = Utility.byteToHex(new byte[]
-                {trackData.get(4), trackData.get(5), trackData.get(6), trackData.get(7)});
+//        String[] hex = Utility.byteToHex(new byte[]
+//                {trackData.get(4), trackData.get(5), trackData.get(6), trackData.get(7)});
+//
+//        String hexString = hex[0].concat(hex[1]).concat(hex[2]).concat(hex[3]);
 
-        String hexString = hex[0].concat(hex[1]).concat(hex[2]).concat(hex[3]);
+        // todo: check
+        String hex = String.format("%02X", trackData.get(4))
+                .concat(String.format("%02X", trackData.get(5)))
+                .concat(String.format("%02X", trackData.get(6)))
+                .concat(String.format("%02X", trackData.get(7)));
 
-//        String hex = String.format("%02X", trackData.get(4))
-//                .concat(String.format("%02X", trackData.get(5))
-//                .concat(String.format("%02X", trackData.get(6))
-//                .concat(String.format("%02X", trackData.get(7)))));
-
-        int length = Integer.parseInt(hexString, 16);
+        int length = Integer.parseInt(hex, 16);
 
         // read input from 0 to length+8, set it as content of midiTrack
 

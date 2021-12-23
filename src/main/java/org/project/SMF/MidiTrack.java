@@ -5,13 +5,14 @@ import java.util.List;
 
 public class MidiTrack {
 
-    private List<Byte> content;
     private static final byte[] ID = {77, 84, 114, 107};
+    private List<Byte> content;
     private Integer length;
     private List<TrackEvent> MTrk_Events;
 
     public MidiTrack(List<Byte> data) {
         content = data;
+        MTrk_Events = new ArrayList<>();
         this.split();
     }
 
@@ -43,7 +44,24 @@ public class MidiTrack {
         //base case
         if (events.isEmpty()) return;
 
+        int length;
         List<Byte> content = new ArrayList<>();
+
+        //todo
+        // meta-events: 0xFF
+        if (events.get(0) == 0 && events.get(1) == -1) {
+            length = Integer.parseInt(String.format("%02X", events.get(3)), 16);
+
+            for (int i = 0; i < length + 4; i ++) {
+                content.add(events.get(i));
+            }
+
+            TrackEvent trackEvent = new TrackEvent(content);
+            this.MTrk_Events.add(trackEvent);
+
+            events = events.subList(length + 4, events.size());
+            splitEvents(events);
+        }
 
     }
 

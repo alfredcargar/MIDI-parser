@@ -6,19 +6,19 @@ import java.util.List;
  * <header-ID>(4 btyes) = the header has fixed length, the first 4 bytes define the header id "MThd";
  * <length>(4 bytes) = the next 4 bytes define the length of the header (the bytes that follow), divided in the next 3 fields.
  * <format>(2 bytes) =
- *   0: single multi-channel track
- *   1: one or more simultaneous tracks
- *   2: one or more sequentially independent single-track patterns
+ *      0: single multi-channel track
+ *      1: one or more simultaneous tracks
+ *      2: one or more sequentially independent single-track patterns
  * <num-of-tracks>(2 bytes) = the number of tracks that compose the MIDI file
  * <division>(2 bytes) =
- * ticks per quarter note
- * if the most significant bit is 0, then it's pulses per quarter note (PPQ).
- * if it's 1, then it's SMPTE frames per second.
+ *      ticks per quarter note
+ *      if the most significant bit is 0, then it's pulses per quarter note (PPQ).
+ *      if it's 1, then it's SMPTE frames per second.
  */
 public class MidiHeader {
 
-    private List<Byte> content;
     private static final byte[] ID = {77, 84, 104, 100};
+    private List<Byte> content;
     private Integer length; // always 6
     private Integer format; // 0, 1 or 2
     private Integer numOfTracks;
@@ -45,6 +45,10 @@ public class MidiHeader {
         numOfTracks = Integer.parseInt(hex, 16);
         hex = String.format("%02X", content.get(12)).concat(String.format("%02X", content.get(13)));
         division = Integer.parseInt(hex, 16);
+
+        // determines PPQ based on division's msb
+        int msb = content.get(12) >> 7;
+        isPPQ = msb == 0;
 
     }
 
@@ -87,6 +91,10 @@ public class MidiHeader {
 
     public void setDivision(Integer division) {
         this.division = division;
+    }
+
+    public boolean isPPQ() {
+        return isPPQ;
     }
 
     public void setPPQ(boolean PPQ) {
