@@ -12,6 +12,8 @@ public class Main {
         parser.setInputPath(inputPath);
         parser.setOutputPath(outputPath);
         parser.parseJSON();
+        System.out.println();
+
 
     }
 

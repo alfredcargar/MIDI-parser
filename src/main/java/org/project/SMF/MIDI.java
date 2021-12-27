@@ -98,6 +98,7 @@ public class MIDI {
 
         // sets the content and add to list
         MidiTrack midiTrack = new MidiTrack(content);
+        midiTrack.setLength(length);
         this.tracks.add(midiTrack);
 
         // truncates the chunk that was just added and calls itself on the remaining part

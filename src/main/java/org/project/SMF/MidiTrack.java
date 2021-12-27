@@ -1,5 +1,8 @@
 package org.project.SMF;
 
+import static org.project.utility.Utility.deltaTime;
+import static org.project.utility.Utility.splitVLV;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +21,10 @@ public class MidiTrack {
 
 
     /**
-     * splits the content into class fields
+     * splits the content into class fields, from the 9th byte
      */
     public void split() {
         //todo
-        String hex = String.format("%02X", content.get(4)).concat(String.format("%02X", content.get(5)))
-                .concat(String.format("%02X", content.get(6))).concat(String.format("%02X", content.get(7)));
-        length = Integer.parseInt(hex, 16);
-
         splitEvents(content.subList(8, content.size()));
 
     }
@@ -39,29 +38,38 @@ public class MidiTrack {
     }
 
 
-    public void splitEvents(List<Byte> events) {
+    public void splitEvents(List<Byte> listOfEvents) {
 
         //base case
-        if (events.isEmpty()) return;
+        // todo better base case
+        if (listOfEvents.isEmpty()) return;
 
-        int length;
+        Event event = new Event();
         List<Byte> content = new ArrayList<>();
 
-        //todo
-        // meta-events: 0xFF
-        if (events.get(0) == 0 && events.get(1) == -1) {
-            length = Integer.parseInt(String.format("%02X", events.get(3)), 16);
+        int[] delta_time = deltaTime(listOfEvents);
+        listOfEvents = listOfEvents.subList(delta_time[1], listOfEvents.size());
+        event.setType(listOfEvents.get(0));
+        event.setLength(listOfEvents);
 
-            for (int i = 0; i < length + 4; i ++) {
-                content.add(events.get(i));
-            }
-
-            TrackEvent trackEvent = new TrackEvent(content);
-            this.MTrk_Events.add(trackEvent);
-
-            events = events.subList(length + 4, events.size());
-            splitEvents(events);
+        for (int i = 0; i < event.getLength(); i++) {
+            content.add(listOfEvents.get(i));
         }
+
+        event.setContent(content);
+
+        //create a new TrackEvent for it
+        TrackEvent trackEvent = new TrackEvent();
+        trackEvent.setDelta_time(delta_time[0]);
+        trackEvent.setEvent(event);
+        // add to MtrkEvents
+        this.MTrk_Events.add(trackEvent);
+        // truncate the input and recursive call
+        listOfEvents = listOfEvents.subList(content.size(), listOfEvents.size());
+        // if event = FF 2F 00, return;
+        splitEvents(listOfEvents);
+
+
 
     }
 
