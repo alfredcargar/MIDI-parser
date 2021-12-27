@@ -1,5 +1,5 @@
 # MIDI-parser
-Read and parse MIDI[^1][^2] files.
+Reads and parse MIDI[^1][^2] files.
 
 
 
