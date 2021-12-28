@@ -14,9 +14,9 @@ public class JSON {
 
     public void createOutput() {
 
-        String copyright = "\"copyright\": " + this.copyright;
-        String trackName = "\"track name\": " + this.trackName;
-        String instrument = "\"instrument\": " + this.instrument;
+        String copyright = "\"copyright\": " + "\"" + this.copyright.trim() + "\"";
+        String trackName = "\"track name\": " + "\"" + this.trackName.trim() + "\"";
+        String instrument = "\"instrument\": " + "\"" + this.instrument.trim() + "\"";
         String duration = "\"duration\": " + this.duration;
         String tempo = "\"tempo\": " + this.tempo;
         String time = "\"time signature\": \"" + this.timeSignature + "\"";
@@ -25,7 +25,7 @@ public class JSON {
         content = "{"
                 + "\n\t" + copyright + ","
                 + "\n\t" + trackName + ","
-                + "\n\t" + instrument + ","
+                + "\n\t" + instrument   // last one without comma
                 + "\n" +
                 "}";
     }
