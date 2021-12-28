@@ -1,7 +1,6 @@
 package org.project.SMF;
 
 import static org.project.utility.Utility.deltaTime;
-import static org.project.utility.Utility.splitVLV;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +23,7 @@ public class MidiTrack {
      * splits the content into class fields, from the 9th byte
      */
     public void split() {
-        //todo
         splitEvents(content.subList(8, content.size()));
-
     }
 
     /**
@@ -34,6 +31,7 @@ public class MidiTrack {
      * @return true if tag matches
      */
     public boolean validate() {
+
         return true;
     }
 
@@ -41,16 +39,22 @@ public class MidiTrack {
     public void splitEvents(List<Byte> listOfEvents) {
 
         //base case
-        // todo better base case
         if (listOfEvents.isEmpty()) return;
 
         Event event = new Event();
         List<Byte> content = new ArrayList<>();
+        int start = 0;
 
         int[] delta_time = deltaTime(listOfEvents);
         listOfEvents = listOfEvents.subList(delta_time[1], listOfEvents.size());
-        event.setType(listOfEvents.get(0));
+        event.setID(listOfEvents.get(0));
         event.setLength(listOfEvents);
+
+        if (event.getID() == -1) {
+            event.setType(listOfEvents.get(1));
+            start = 3;
+        }
+
 
         for (int i = 0; i < event.getLength(); i++) {
             content.add(listOfEvents.get(i));
@@ -74,6 +78,13 @@ public class MidiTrack {
     }
 
 
+    public List<TrackEvent> getMTrk_Events() {
+        return MTrk_Events;
+    }
+
+    public void setMTrk_Events(List<TrackEvent> MTrk_Events) {
+        this.MTrk_Events = MTrk_Events;
+    }
 
     public void setContent(List<Byte> content) {
         this.content = content;

@@ -1,51 +1,8 @@
-[INFO] 2021-12-22 18:38:02 [main] LogsManager - Finished reading MIDI file.
-[INFO] 2021-12-23 12:52:13 [main] LogsManager - Reading file MIDI: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-23 12:52:13 [main] LogsManager - MIDI file read successfully.
-[INFO] 2021-12-23 12:54:32 [main] LogsManager - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-23 12:54:32 [main] LogsManager - MIDI file read successfully.
-[INFO] 2021-12-23 15:29:58 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-23 16:49:31 [main] - MIDI file read successfully.
-[INFO] 2021-12-23 16:55:59 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-23 16:59:39 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-23 17:04:34 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 12:57:07 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 13:05:45 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 13:17:07 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 13:18:11 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 15:26:46 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 15:28:15 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 15:51:59 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 15:54:01 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 15:56:42 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 16:02:51 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 16:03:47 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 16:03:51 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 16:05:54 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 16:06:06 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 16:27:28 [main] - MIDI file read successfully.
-[INFO] 2021-12-24 16:34:17 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 17:14:43 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 17:16:31 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 17:35:10 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 17:36:07 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 17:41:08 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-24 17:42:38 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-25 15:00:27 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-25 15:01:17 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-25 15:03:58 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-25 15:10:49 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-25 15:18:20 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-25 15:27:16 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-26 14:14:10 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-26 15:54:49 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-26 15:56:10 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:02:30 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:10:11 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:18:13 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:18:13 [main] - MIDI file read successfully.
-[INFO] 2021-12-27 12:20:41 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:20:54 [main] - MIDI file read successfully.
-[INFO] 2021-12-27 12:23:10 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:23:46 [main] - MIDI file read successfully.
-[INFO] 2021-12-27 12:23:51 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
-[INFO] 2021-12-27 12:33:46 [main] - MIDI file read successfully.
+[INFO] 2021-12-28 12:23:05 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-28 12:23:05 [main] - MIDI file read successfully.
+[INFO] 2021-12-28 12:23:06 [main] - Output created successfully: C:/Projects/MIDI/output/output.json
+[INFO] 2021-12-28 12:24:50 [main] - Reading MIDI file: C:/Projects/MIDI/files/bwv811.mid
+[INFO] 2021-12-28 12:25:01 [main] - Reading MIDI file: C:/Projects/MIDI/files/bwv812.mid
+[INFO] 2021-12-28 12:25:52 [main] - Reading MIDI file: C:/Projects/MIDI/files/fur_elise.mid
+[INFO] 2021-12-28 12:25:52 [main] - MIDI file read successfully.
+[INFO] 2021-12-28 12:25:52 [main] - Output created successfully: C:/Projects/MIDI/output/output.json

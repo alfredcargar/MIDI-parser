@@ -47,9 +47,6 @@ public class MIDI {
         header = new MidiHeader(headerData);
         tracks = new ArrayList<>();
         splitTracks(trackData);
-
-        //todo: read the content in both header and tracks, populating the fields
-
     }
 
     /**

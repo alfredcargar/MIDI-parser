@@ -6,18 +6,19 @@ import static org.project.utility.Utility.splitVLV;
 
 public class Event {
 
-    private Byte type;
+    private Byte ID;
+    private Byte type; // only set for FF events
     private Integer length; // VLV, for convenience will be equal to the whole length including the type byte
     private List<Byte> content;
 
 
 
-    public Byte getType() {
-        return type;
+    public Byte getID() {
+        return ID;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setID(Byte ID) {
+        this.ID = ID;
     }
 
     public Integer getLength() {
@@ -29,7 +30,7 @@ public class Event {
         List<Byte> eventLength;
         String hex = "";
 
-        switch(type) {
+        switch(ID) {
             case -16: // F0, F7 = sys event
             case -9:
                 // length starts at second byte
@@ -59,6 +60,14 @@ public class Event {
                 }
                 break;
         }
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public List<Byte> getContent() {

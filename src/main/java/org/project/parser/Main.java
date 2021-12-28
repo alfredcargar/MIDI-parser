@@ -6,7 +6,7 @@ public class Main {
 
 
         String inputPath = "C:/Projects/MIDI/files/fur_elise.mid";
-        String outputPath = "C:/Projects/MIDI/output/file.json";
+        String outputPath = "C:/Projects/MIDI/output";
 
         Parser parser = new Parser();
         parser.setInputPath(inputPath);
