@@ -62,7 +62,7 @@ public class Parser {
         json.setCopyright(copyright);
         json.setTrackName(trackName);
         json.setInstrument(instrument);
-        json.createOutput();
+        json.createOutput(log);
         writeOutput(json.getContent());
 
         return true;

@@ -1,5 +1,7 @@
 package org.project.parser;
 
+import org.project.utility.LogsManager;
+
 public class JSON {
 
     private String copyright;
@@ -12,11 +14,11 @@ public class JSON {
     private String content;
 
 
-    public void createOutput() {
+    public void createOutput(LogsManager log) {
 
-        String copyright = "\"copyright\": " + "\"" + this.copyright.trim() + "\"";
-        String trackName = "\"track name\": " + "\"" + this.trackName.trim() + "\"";
-        String instrument = "\"instrument\": " + "\"" + this.instrument.trim() + "\"";
+        String copyright = "\"copyright\": " + "\"" + this.copyright + "\"";
+        String trackName = "\"track name\": " + "\"" + this.trackName + "\"";
+        String instrument = "\"instrument\": " + "\"" + this.instrument + "\"";
         String duration = "\"duration\": " + this.duration;
         String tempo = "\"tempo\": " + this.tempo;
         String time = "\"time signature\": \"" + this.timeSignature + "\"";
@@ -25,7 +27,9 @@ public class JSON {
         content = "{"
                 + "\n\t" + copyright + ","
                 + "\n\t" + trackName + ","
-                + "\n\t" + instrument   // last one without comma
+                + "\n\t" + instrument + ","
+                + "\n\t" + tempo + ","
+                + "\n\t" + time
                 + "\n" +
                 "}";
     }
@@ -35,7 +39,7 @@ public class JSON {
     }
 
     public void setCopyright(String copyright) {
-        this.copyright = copyright;
+        this.copyright = copyright.trim();
     }
 
     public String getTrackName() {
@@ -43,7 +47,7 @@ public class JSON {
     }
 
     public void setTrackName(String trackName) {
-        this.trackName = trackName;
+        this.trackName = trackName.trim();
     }
 
     public String getDuration() {
@@ -83,7 +87,7 @@ public class JSON {
     }
 
     public void setInstrument(String instrument) {
-        this.instrument = instrument;
+        this.instrument = instrument.trim();
     }
 
     public String getContent() {
