@@ -11,7 +11,7 @@ public class Utility {
      * computes the delta time from a track event
      * @param data
      * @return an integer pair where [0] is the value of the delta time and [1]
-     *     its length in bytes.
+     *     its size in bytes.
      */
     public static int[] deltaTime(List<Byte> data) {
 
@@ -21,6 +21,21 @@ public class Utility {
             hex = hex.concat(String.format("%02X", b));
         }
         return new int[]{Integer.parseInt(hex, 16), delta_time.size()};
+    }
+
+    /**
+     *
+     * @param data
+     * @return integer pair: [0] = length value; [1] = VLV size in bytes
+     */
+    public static int[] eventLength(List<Byte> data) {
+
+        List<Byte> event_length = splitVLV(data);
+        String hex = "";
+        for (Byte b : event_length) {
+            hex = hex.concat(String.format("%02X", b));
+        }
+        return new int[]{Integer.parseInt(hex, 16), event_length.size()};
     }
 
 
@@ -58,5 +73,33 @@ public class Utility {
         }
 
         return output;
+    }
+
+
+    /**
+     * todo better implementation
+     * packs a byte array into an integer
+     * @param bytes
+     * @return the integer value of the byte array
+     */
+    public static int bytesToInt(byte[] bytes) {
+
+        switch (bytes.length) {
+            case 4:
+                return ((bytes[0] & 0xFF) << 24) |
+                    ((bytes[1] & 0xFF) << 16) |
+                    ((bytes[2] & 0xFF) << 8 ) |
+                    ((bytes[3] & 0xFF) << 0 );
+            case 3:
+                return ((bytes[0] & 0xFF) << 16) |
+                        ((bytes[1] & 0xFF) << 8 ) |
+                        ((bytes[2] & 0xFF) << 0);
+            case 2:
+                return ((bytes[0] & 0xFF) << 8) |
+                        (bytes[1] & 0xFF << 0);
+            default:
+                return (bytes[0] & 0xFF);
+        }
+
     }
 }

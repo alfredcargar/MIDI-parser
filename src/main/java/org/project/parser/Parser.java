@@ -3,11 +3,10 @@ package org.project.parser;
 import org.project.SMF.MIDI;
 import org.project.SMF.TrackEvent;
 import org.project.utility.LogsManager;
+import static org.project.utility.Utility.*;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Parser {
 
@@ -37,24 +36,42 @@ public class Parser {
         String trackName = "";
         String copyright = "";
         String instrument = "";
+        int tempo = 0;
 
-        //todo: map midi into json
-        for (TrackEvent event : midiFile.getTracks().get(1).getMTrk_Events()) {
+        //todo: map midi into json (usually in the first track are defined tempo and main information)
+        for (TrackEvent event : midiFile.getTracks().get(0).getMTrk_Events()) {
             if (event.getEvent().getID() == -1) {
                 byte[] arr = new byte[event.getEvent().getLength()];
-                toByteArray(arr, event);
+                sliceByteArray(arr, event); // todo better option at this point would be to have the array as just the content
+                switch(event.getEvent().getType()) {
+                    case 3: // track name
+                        trackName = new String(arr, Charset.defaultCharset());
+                        break;
+                    case 81: // set tempo
+                        // todo read the bytes as decimal number
+                        tempo = bytesToInt(arr);
+                        break;
+                }
 
+            }
+        }
+        for (TrackEvent event : midiFile.getTracks().get(1).getMTrk_Events()) {
+
+            if (event.getEvent().getID() == -1) {
+                byte[] arr = new byte[event.getEvent().getLength()];
+                sliceByteArray(arr, event);
                 switch(event.getEvent().getType()) {
                     case 2: // copyright
                         copyright = new String(arr, Charset.defaultCharset());
                         break;
-                    case 3: // track name
-                        trackName = new String(arr, Charset.defaultCharset());
+                    case 3: // track name todo from first or second track?
+                        if (trackName.isEmpty()) {
+                            trackName = new String(arr, Charset.defaultCharset());
+                        }
                         break;
                     case 4: // instrument name
                         instrument = new String(arr, Charset.defaultCharset());
                         break;
-
                 }
             }
         }
@@ -88,7 +105,12 @@ public class Parser {
 
     }
 
-    public void toByteArray(byte[] arr, TrackEvent event) {
+    /**
+     * slices the fixed part of the FF event, leaving only the content in the array
+     * @param arr
+     * @param event
+     */
+    public void sliceByteArray(byte[] arr, TrackEvent event) {
         // todo start index
         for (int i = 3; i < event.getEvent().getLength(); i++) {
             arr[i] = event.getEvent().getContent().get(i);

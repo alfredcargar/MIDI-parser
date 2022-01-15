@@ -12,7 +12,6 @@ public class Event {
     private List<Byte> content;
 
 
-
     public Byte getID() {
         return ID;
     }
@@ -25,41 +24,8 @@ public class Event {
         return length;
     }
 
-    public void setLength(List<Byte> eventList) {
-
-        List<Byte> eventLength;
-        String hex = "";
-
-        switch(ID) {
-            case -16: // F0, F7 = sys event
-            case -9:
-                // length starts at second byte
-                eventLength = splitVLV(eventList.subList(1, eventList.size()));
-                for (Byte b : eventLength) {
-                    String bToh = String.format("%02X", b);
-                    hex = hex.concat(bToh);
-                }
-                this.length = Integer.parseInt(hex, 16) + 2;
-                break;
-            case -1: // FF = meta event
-                // length starts at third byte
-                eventLength = splitVLV(eventList.subList(2, eventList.size()));
-                for (Byte b : eventLength) {
-                    String bToh = String.format("%02X", b);
-                    hex = hex.concat(bToh);
-                }
-                this.length = Integer.parseInt(hex, 16) + 3;
-                break;
-            default:
-                // it's a MIDI event, the first byte is the status byte and it's followed by 1 or 2 bytes, depending on the msg
-                if (eventList.get(0) >= -128 && eventList.get(0) <= -65) {
-                    this.length = 3;
-                }
-                else {
-                    this.length = 2;
-                }
-                break;
-        }
+    public void setLength(Integer length) {
+        this.length = length;
     }
 
     public Byte getType() {

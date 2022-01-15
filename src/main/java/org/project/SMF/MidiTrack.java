@@ -1,6 +1,7 @@
 package org.project.SMF;
 
 import static org.project.utility.Utility.deltaTime;
+import static org.project.utility.Utility.eventLength;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +44,43 @@ public class MidiTrack {
 
         Event event = new Event();
         List<Byte> content = new ArrayList<>();
-        int start = 0;
 
         int[] delta_time = deltaTime(listOfEvents);
         listOfEvents = listOfEvents.subList(delta_time[1], listOfEvents.size());
-        event.setID(listOfEvents.get(0));
-        event.setLength(listOfEvents);
+        event.setID(listOfEvents.get(0)); // FF, F0, etc
 
-        if (event.getID() == -1) {
-            event.setType(listOfEvents.get(1));
-            start = 3;
+        switch (event.getID()) {
+            case -1: // FF event
+                event.setType(listOfEvents.get(1));
+                listOfEvents = listOfEvents.subList(2, listOfEvents.size());
+                break;
+            case -9: // sys events
+            case -16:
+                listOfEvents = listOfEvents.subList(1, listOfEvents.size());
+                break;
+            default: // midi event todo
+                // the first byte is the status byte and it's followed by 1 or 2 bytes, depending on the msg
+                if (listOfEvents.get(0) >= -128 && listOfEvents.get(0) <= -65) {
+                    // followed by 2 bytes
+                    event.setLength(2);
+                }
+                else {
+                    // followed by 1 byte
+                    event.setLength(1);
+                }
+                break;
+
         }
 
+        // base case: FF 2F 00 defines the end of the track
+        if (event.getID() == -1 && event.getType() == 47) return;
 
-        for (int i = 0; i < event.getLength(); i++) {
+        int[] event_length = eventLength(listOfEvents);
+
+        event.setLength(event_length[0]);
+
+        // tocheck set content as only the content after VLV length bytes
+        for (int i = event_length[1]; i < event.getLength(); i++) {
             content.add(listOfEvents.get(i));
         }
 
@@ -70,10 +94,7 @@ public class MidiTrack {
         this.MTrk_Events.add(trackEvent);
         // truncate the input and recursive call
         listOfEvents = listOfEvents.subList(content.size(), listOfEvents.size());
-        // if event = FF 2F 00, return;
         splitEvents(listOfEvents);
-
-
 
     }
 
