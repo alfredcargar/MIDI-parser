@@ -32,6 +32,10 @@ public class Event {
         return type;
     }
 
+    /**
+     * only for FF (-1) events
+     * @param type
+     */
     public void setType(Byte type) {
         this.type = type;
     }

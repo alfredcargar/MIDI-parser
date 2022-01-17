@@ -44,6 +44,7 @@ public class MidiTrack {
 
         Event event = new Event();
         List<Byte> content = new ArrayList<>();
+        int[] event_length;
 
         int[] delta_time = deltaTime(listOfEvents);
         listOfEvents = listOfEvents.subList(delta_time[1], listOfEvents.size());
@@ -52,14 +53,20 @@ public class MidiTrack {
         switch (event.getID()) {
             case -1: // FF event
                 event.setType(listOfEvents.get(1));
-                listOfEvents = listOfEvents.subList(2, listOfEvents.size());
+                event_length = eventLength(listOfEvents);
+                event.setLength(event_length[0]);
+                listOfEvents = listOfEvents.subList(2 + event_length[1], listOfEvents.size());
                 break;
             case -9: // sys events
             case -16:
-                listOfEvents = listOfEvents.subList(1, listOfEvents.size());
+                event_length = eventLength(listOfEvents);
+                event.setLength(event_length[0]);
+                listOfEvents = listOfEvents.subList(1 + event_length[1], listOfEvents.size());
                 break;
             default: // midi event todo
                 // the first byte is the status byte and it's followed by 1 or 2 bytes, depending on the msg
+                event_length = eventLength(listOfEvents);
+
                 if (listOfEvents.get(0) >= -128 && listOfEvents.get(0) <= -65) {
                     // followed by 2 bytes
                     event.setLength(2);
@@ -68,19 +75,16 @@ public class MidiTrack {
                     // followed by 1 byte
                     event.setLength(1);
                 }
+                listOfEvents = listOfEvents.subList(1, listOfEvents.size());
                 break;
-
         }
 
         // base case: FF 2F 00 defines the end of the track
         if (event.getID() == -1 && event.getType() == 47) return;
 
-        int[] event_length = eventLength(listOfEvents);
-
-        event.setLength(event_length[0]);
 
         // tocheck set content as only the content after VLV length bytes
-        for (int i = event_length[1]; i < event.getLength(); i++) {
+        for (int i = 0; i < event.getLength(); i++) {
             content.add(listOfEvents.get(i));
         }
 
