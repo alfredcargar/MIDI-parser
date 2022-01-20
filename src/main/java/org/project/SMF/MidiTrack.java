@@ -38,7 +38,7 @@ public class MidiTrack {
 
 
     public void splitEvents(List<Byte> listOfEvents) {
-        
+
         Event event = new Event();
         List<Byte> content = new ArrayList<>();
         int[] event_length;
