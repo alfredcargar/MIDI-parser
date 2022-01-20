@@ -38,10 +38,7 @@ public class MidiTrack {
 
 
     public void splitEvents(List<Byte> listOfEvents) {
-
-        //base case
-        if (listOfEvents.isEmpty()) return;
-
+        
         Event event = new Event();
         List<Byte> content = new ArrayList<>();
         int[] event_length;
@@ -53,9 +50,10 @@ public class MidiTrack {
         switch (event.getID()) {
             case -1: // FF event
                 event.setType(listOfEvents.get(1));
+                listOfEvents = listOfEvents.subList(2, listOfEvents.size());
                 event_length = eventLength(listOfEvents);
                 event.setLength(event_length[0]);
-                listOfEvents = listOfEvents.subList(2 + event_length[1], listOfEvents.size());
+                listOfEvents = listOfEvents.subList(event_length[1], listOfEvents.size());
                 break;
             case -9: // sys events
             case -16:
@@ -79,8 +77,6 @@ public class MidiTrack {
                 break;
         }
 
-        // base case: FF 2F 00 defines the end of the track
-        if (event.getID() == -1 && event.getType() == 47) return;
 
 
         // tocheck set content as only the content after VLV length bytes
@@ -90,12 +86,15 @@ public class MidiTrack {
 
         event.setContent(content);
 
-        //create a new TrackEvent for it
+        // create a new TrackEvent and add the data
         TrackEvent trackEvent = new TrackEvent();
         trackEvent.setDelta_time(delta_time[0]);
         trackEvent.setEvent(event);
-        // add to MtrkEvents
         this.MTrk_Events.add(trackEvent);
+
+        // base case: FF 2F 00 defines the end of the track
+        if (event.getID() == -1 && event.getType() == 47) return;
+
         // truncate the input and recursive call
         listOfEvents = listOfEvents.subList(content.size(), listOfEvents.size());
         splitEvents(listOfEvents);

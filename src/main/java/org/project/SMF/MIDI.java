@@ -74,11 +74,6 @@ public class MIDI {
         List<Byte> content = new ArrayList<>();
 
         // the length of each chunk is defined in the second group of 4 bytes
-//        String[] hex = Utility.byteToHex(new byte[]
-//                {trackData.get(4), trackData.get(5), trackData.get(6), trackData.get(7)});
-//
-//        String hexString = hex[0].concat(hex[1]).concat(hex[2]).concat(hex[3]);
-
         // todo: check
         String hex = String.format("%02X", trackData.get(4))
                 .concat(String.format("%02X", trackData.get(5)))
