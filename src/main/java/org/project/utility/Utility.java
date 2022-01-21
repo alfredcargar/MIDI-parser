@@ -6,36 +6,19 @@ import java.util.List;
 
 public class Utility {
 
-
     /**
-     * computes the delta time from a track event
-     * @param data
-     * @return an integer pair where [0] is the value of the delta time and [1]
-     *     its size in bytes.
+     * computes the variable length value from a track event.
+     * @param data: bytes of the event, VLV must start at index 0.
+     * @return integer pair: [0] = variable value [1] = VLV size in bytes
      */
-    public static int[] deltaTime(List<Byte> data) {
+    public static int[] computeVLV(List<Byte> data) {
 
-        List<Byte> delta_time = splitVLV(data);
+        List<Byte> variable = splitVLV(data);
         String hex = "";
-        for (Byte b : delta_time) {
+        for (Byte b : variable) {
             hex = hex.concat(String.format("%02X", b));
         }
-        return new int[]{Integer.parseInt(hex, 16), delta_time.size()};
-    }
-
-    /**
-     *
-     * @param data
-     * @return integer pair: [0] = length value; [1] = VLV size in bytes
-     */
-    public static int[] eventLength(List<Byte> data) {
-
-        List<Byte> event_length = splitVLV(data);
-        String hex = "";
-        for (Byte b : event_length) {
-            hex = hex.concat(String.format("%02X", b));
-        }
-        return new int[]{Integer.parseInt(hex, 16), event_length.size()};
+        return new int[]{Integer.parseInt(hex, 16), variable.size()};
     }
 
 

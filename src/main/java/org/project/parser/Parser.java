@@ -6,7 +6,9 @@ import org.project.utility.LogsManager;
 import static org.project.utility.Utility.*;
 
 import java.io.*;
+import java.math.RoundingMode;
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
 
 public class Parser {
 
@@ -36,25 +38,35 @@ public class Parser {
         String trackName = "";
         String copyright = "";
         String instrument = "";
-        int tempo = 0;
+        String BPM = "";
+        double tempo = 0;
 
-        //todo: map midi into json (usually in the first track are defined tempo and main information)
+
         for (TrackEvent event : midiFile.getTracks().get(0).getMTrk_Events()) {
             if (event.getEvent().getID() == -1) {
                 byte[] arr = new byte[event.getEvent().getLength()];
-                sliceByteArray(arr, event); // todo better option at this point would be to have the array as just the content
+                sliceByteArray(arr, event);
                 switch(event.getEvent().getType()) {
                     case 3: // track name
-                        trackName = new String(arr, Charset.defaultCharset());
+                        if (midiFile.getHeader().getFormat() == 0) {
+                            trackName = new String(arr, Charset.defaultCharset());
+                        }
+                        // otherwise it's the name of the sequence
                         break;
                     case 81: // set tempo
-                        // todo read the bytes as decimal number
                         tempo = bytesToInt(arr);
                         break;
                 }
-
             }
         }
+
+        if (tempo == 0) tempo = 500000;
+        double bpm = 60e6 / tempo;
+        DecimalFormat formatter = new DecimalFormat("0.0");
+        formatter.setRoundingMode(RoundingMode.DOWN);
+        BPM = String.valueOf(bpm);
+        BPM = formatter.format(Double.valueOf(BPM)) + " bpm";
+
         for (TrackEvent event : midiFile.getTracks().get(1).getMTrk_Events()) {
 
             if (event.getEvent().getID() == -1) {
@@ -78,6 +90,7 @@ public class Parser {
 
         json.setCopyright(copyright);
         json.setTrackName(trackName);
+        json.setTempo(BPM);
         json.setInstrument(instrument);
         json.createOutput(log);
         writeOutput(json.getContent());
@@ -112,7 +125,7 @@ public class Parser {
      */
     public void sliceByteArray(byte[] arr, TrackEvent event) {
         // todo start index
-        for (int i = 3; i < event.getEvent().getLength(); i++) {
+        for (int i = 0; i < event.getEvent().getLength(); i++) {
             arr[i] = event.getEvent().getContent().get(i);
         }
     }

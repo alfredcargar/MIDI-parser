@@ -1,10 +1,9 @@
 package org.project.SMF;
 
-import static org.project.utility.Utility.deltaTime;
-import static org.project.utility.Utility.eventLength;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.project.utility.Utility.*;
 
 public class MidiTrack {
 
@@ -43,7 +42,7 @@ public class MidiTrack {
         List<Byte> content = new ArrayList<>();
         int[] event_length;
 
-        int[] delta_time = deltaTime(listOfEvents);
+        int[] delta_time = computeVLV(listOfEvents);
         listOfEvents = listOfEvents.subList(delta_time[1], listOfEvents.size());
         event.setID(listOfEvents.get(0)); // FF, F0, etc
 
@@ -51,19 +50,19 @@ public class MidiTrack {
             case -1: // FF event
                 event.setType(listOfEvents.get(1));
                 listOfEvents = listOfEvents.subList(2, listOfEvents.size());
-                event_length = eventLength(listOfEvents);
+                event_length = computeVLV(listOfEvents);
                 event.setLength(event_length[0]);
                 listOfEvents = listOfEvents.subList(event_length[1], listOfEvents.size());
                 break;
             case -9: // sys events
             case -16:
-                event_length = eventLength(listOfEvents);
+                event_length = computeVLV(listOfEvents);
                 event.setLength(event_length[0]);
                 listOfEvents = listOfEvents.subList(1 + event_length[1], listOfEvents.size());
                 break;
             default: // midi event todo
                 // the first byte is the status byte and it's followed by 1 or 2 bytes, depending on the msg
-                event_length = eventLength(listOfEvents);
+                event_length = computeVLV(listOfEvents);
 
                 if (listOfEvents.get(0) >= -128 && listOfEvents.get(0) <= -65) {
                     // followed by 2 bytes
@@ -76,7 +75,6 @@ public class MidiTrack {
                 listOfEvents = listOfEvents.subList(1, listOfEvents.size());
                 break;
         }
-
 
 
         // tocheck set content as only the content after VLV length bytes
@@ -98,7 +96,6 @@ public class MidiTrack {
         // truncate the input and recursive call
         listOfEvents = listOfEvents.subList(content.size(), listOfEvents.size());
         splitEvents(listOfEvents);
-
     }
 
 
