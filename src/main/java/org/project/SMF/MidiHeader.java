@@ -23,7 +23,7 @@ public class MidiHeader {
     private Integer format; // 0, 1 or 2
     private Integer numOfTracks;
     private Integer division;
-    private boolean isPPQ;
+    private boolean isPPQ; // true = PPQ false = SMPTE
 
     public MidiHeader(List<Byte> data) {
         this.content = data;

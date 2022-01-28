@@ -1,7 +1,6 @@
 package org.project.SMF;
 
 import org.project.utility.LogsManager;
-import org.project.utility.Utility;
 
 import java.io.File;
 import java.io.IOException;

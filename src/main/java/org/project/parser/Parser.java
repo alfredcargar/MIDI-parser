@@ -2,13 +2,17 @@ package org.project.parser;
 
 import org.project.SMF.MIDI;
 import org.project.SMF.TrackEvent;
+import org.project.utility.KeySignature;
 import org.project.utility.LogsManager;
+import org.project.utility.Utility;
+
 import static org.project.utility.Utility.*;
 
 import java.io.*;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
+import java.util.Map;
 
 public class Parser {
 
@@ -39,7 +43,9 @@ public class Parser {
         String copyright = "";
         String instrument = "";
         String BPM = "";
+        String time = "";
         double tempo = 0;
+        String key = "";
 
 
         for (TrackEvent event : midiFile.getTracks().get(0).getMTrk_Events()) {
@@ -56,11 +62,20 @@ public class Parser {
                     case 81: // set tempo
                         tempo = bytesToInt(arr);
                         break;
+                    case 88: // time signature: the denominator is expressed as a negative power of 2
+                        int numerator = arr[0];
+                        double denominator = Math.pow(2, arr[1]);
+                        time = numerator + "/" + (int)denominator;
+                        break;
+                    case 89: // key signature, first byte sets the key second byte sets major/minor
+                        KeySignature keySignature = new KeySignature(arr[0], arr[1]);
+                        key = keySignature.getKey();
+                        break;
                 }
             }
         }
 
-        if (tempo == 0) tempo = 500000;
+        if (tempo == 0) tempo = 500e3;
         double bpm = 60e6 / tempo;
         DecimalFormat formatter = new DecimalFormat("0.0");
         formatter.setRoundingMode(RoundingMode.DOWN);
@@ -76,13 +91,26 @@ public class Parser {
                     case 2: // copyright
                         copyright = new String(arr, Charset.defaultCharset());
                         break;
-                    case 3: // track name todo from first or second track?
+                    case 3: // track name
                         if (trackName.isEmpty()) {
                             trackName = new String(arr, Charset.defaultCharset());
                         }
                         break;
                     case 4: // instrument name
                         instrument = new String(arr, Charset.defaultCharset());
+                        break;
+                    case 88: // time signature: the denominator is expressed as a negative power of 2
+                        if (time.isEmpty()) {
+                            int numerator = arr[0];
+                            double denominator = Math.pow(2, arr[1]);
+                            time = numerator + "/" + (int) denominator;
+                        }
+                        break;
+                    case 89: // key signature, first byte sets the key second byte sets major/minor
+                        if (key.isEmpty()) {
+                            KeySignature keySignature = new KeySignature(arr[0], arr[1]);
+                            key = keySignature.getKey();
+                        }
                         break;
                 }
             }
@@ -91,12 +119,16 @@ public class Parser {
         json.setCopyright(copyright);
         json.setTrackName(trackName);
         json.setTempo(BPM);
+        json.setTimeSignature(time);
+        json.setKeySignature(key);
         json.setInstrument(instrument);
         json.createOutput(log);
         writeOutput(json.getContent());
 
         return true;
     }
+
+
 
     public void writeOutput(String output) {
 

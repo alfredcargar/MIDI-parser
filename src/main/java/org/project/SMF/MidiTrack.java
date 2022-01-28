@@ -52,6 +52,7 @@ public class MidiTrack {
                 listOfEvents = listOfEvents.subList(2, listOfEvents.size());
                 event_length = computeVLV(listOfEvents);
                 event.setLength(event_length[0]);
+                // cuts the event up to the end of the VLV, leaving the content
                 listOfEvents = listOfEvents.subList(event_length[1], listOfEvents.size());
                 break;
             case -9: // sys events
@@ -62,7 +63,7 @@ public class MidiTrack {
                 break;
             default: // midi event todo
                 // the first byte is the status byte and it's followed by 1 or 2 bytes, depending on the msg
-                event_length = computeVLV(listOfEvents);
+                //event_length = computeVLV(listOfEvents);
 
                 if (listOfEvents.get(0) >= -128 && listOfEvents.get(0) <= -65) {
                     // followed by 2 bytes
@@ -81,7 +82,6 @@ public class MidiTrack {
         for (int i = 0; i < event.getLength(); i++) {
             content.add(listOfEvents.get(i));
         }
-
         event.setContent(content);
 
         // create a new TrackEvent and add the data

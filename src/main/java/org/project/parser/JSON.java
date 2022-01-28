@@ -19,17 +19,18 @@ public class JSON {
         String copyright = "\"copyright\": " + "\"" + this.copyright + "\"";
         String trackName = "\"track name\": " + "\"" + this.trackName + "\"";
         String instrument = "\"instrument\": " + "\"" + this.instrument + "\"";
-        String duration = "\"duration\": " + this.duration;
+//        String duration = "\"duration\": " + this.duration;
         String tempo = "\"tempo\": " + this.tempo;
         String time = "\"time signature\": \"" + this.timeSignature + "\"";
         String key = "\"key signature\": \"" + this.keySignature + "\"";
 
         content = "{"
-                + "\n\t" + copyright + ","
                 + "\n\t" + trackName + ","
+                + "\n\t" + copyright + ","
                 + "\n\t" + instrument + ","
                 + "\n\t" + tempo + ","
-                + "\n\t" + time
+                + "\n\t" + time + ","
+                + "\n\t" + key
                 + "\n" +
                 "}";
     }

@@ -1,10 +1,10 @@
 package org.project.utility;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Utility {
+
 
     /**
      * computes the variable length value from a track event.
@@ -14,11 +14,7 @@ public class Utility {
     public static int[] computeVLV(List<Byte> data) {
 
         List<Byte> variable = splitVLV(data);
-        String hex = "";
-        for (Byte b : variable) {
-            hex = hex.concat(String.format("%02X", b));
-        }
-        return new int[]{Integer.parseInt(hex, 16), variable.size()};
+        return new int[]{bytesToInt(variable), variable.size()};
     }
 
 
@@ -33,6 +29,7 @@ public class Utility {
         List<Byte> vlv = new ArrayList<>();
 
         for (Byte b : data) {
+            if (vlv.size() == 4) break;
             vlv.add(b);
             if (b >= 0) break;
         }
@@ -43,7 +40,7 @@ public class Utility {
 
     /**
      * formats a byte array in hexadecimal
-     * @param input
+     * @param input byte array
      * @return
      */
     public static String[] byteToHex(byte[] input) {
@@ -62,7 +59,7 @@ public class Utility {
     /**
      * todo better implementation
      * packs a byte array into an integer
-     * @param bytes
+     * @param bytes byte array
      * @return the integer value of the byte array
      */
     public static int bytesToInt(byte[] bytes) {
@@ -82,6 +79,27 @@ public class Utility {
                         (bytes[1] & 0xFF << 0);
             default:
                 return (bytes[0] & 0xFF);
+        }
+
+    }
+
+    public static int bytesToInt(List<Byte> bytes) {
+
+        switch (bytes.size()) {
+            case 4:
+                return ((bytes.get(0) & 0xFF) << 24) |
+                        ((bytes.get(1) & 0xFF) << 16) |
+                        ((bytes.get(2) & 0xFF) << 8 ) |
+                        ((bytes.get(3) & 0xFF) << 0 );
+            case 3:
+                return ((bytes.get(0) & 0xFF) << 16) |
+                        ((bytes.get(1) & 0xFF) << 8 ) |
+                        ((bytes.get(2) & 0xFF) << 0);
+            case 2:
+                return ((bytes.get(0) & 0xFF) << 8) |
+                        (bytes.get(1) & 0xFF << 0);
+            default:
+                return (bytes.get(0) & 0xFF);
         }
 
     }
