@@ -20,7 +20,7 @@ public class JSON {
         String trackName = "\"track name\": " + "\"" + this.trackName + "\"";
         String instrument = "\"instrument\": " + "\"" + this.instrument + "\"";
 //        String duration = "\"duration\": " + this.duration;
-        String tempo = "\"tempo\": " + this.tempo;
+        String tempo = "\"tempo\": " + "\"" + this.tempo + "\"";
         String time = "\"time signature\": \"" + this.timeSignature + "\"";
         String key = "\"key signature\": \"" + this.keySignature + "\"";
 
