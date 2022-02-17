@@ -3,11 +3,7 @@ package org.project.utility;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Map<sf, mi>
- *    sf = key, from -7 (7 flats) to 7 (7 sharps)
- *    mi: 0 = Major, 1 = minor
- */
+
 public class KeySignature {
 
     private byte byteKey;
@@ -49,6 +45,11 @@ public class KeySignature {
         put((byte)7, "C# Major");
     }};
 
+    /**
+     *
+     *    key: from -7 (7 flats) to 7 (7 sharps)
+     *    major: 0 = major, 1 = minor
+     */
     public KeySignature(byte key, byte major) {
         this.byteKey = key;
         this.isMajor = major == 0;

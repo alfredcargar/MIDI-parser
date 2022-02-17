@@ -2,8 +2,6 @@ package org.project.SMF;
 
 import java.util.List;
 
-import static org.project.utility.Utility.splitVLV;
-
 public class Event {
 
     private Byte ID;

@@ -6,9 +6,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-        String inputPath = "C:/Projects/MIDI/files/bwv848.mid";
-        String outputPath = "C:/Projects/MIDI/output";
+        String fileName = args[0];
+        String inputPath = "C:/Projects/MIDI-parser/files/" + fileName;
+        String outputPath = "C:/Projects/MIDI-parser/output";
 
         Utility utility = new Utility();
         Parser parser = new Parser();

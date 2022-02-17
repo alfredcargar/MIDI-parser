@@ -4,15 +4,16 @@ import org.project.SMF.MIDI;
 import org.project.SMF.TrackEvent;
 import org.project.utility.KeySignature;
 import org.project.utility.LogsManager;
-import org.project.utility.Utility;
 
-import static org.project.utility.Utility.*;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
-import java.util.Map;
+
+import static org.project.utility.Utility.bytesToInt;
 
 public class Parser {
 
@@ -132,7 +133,7 @@ public class Parser {
 
     public void writeOutput(String output) {
 
-        String filename = "output.json";
+        String filename = inputPath.substring(inputPath.lastIndexOf("/") + 1, inputPath.indexOf(".")) + ".json"; // name.mid
         File dir = new File(outputPath);
         File actualFile = new File(dir, filename);
 
