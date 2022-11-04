@@ -9,41 +9,26 @@ public class KeySignature {
     private byte byteKey;
     private boolean isMajor;
 
-    private static final Map<Byte, String> minorKeys = new HashMap<Byte, String>() {{
-        put((byte)-7, "Ab minor"); // flats
-        put((byte)-6, "Eb minor");
-        put((byte)-5, "Bb minor");
-        put((byte)-4, "F minor");
-        put((byte)-3, "C minor");
-        put((byte)-2, "G minor");
-        put((byte)-1, "D minor");
-        put((byte)0, "A minor");
-        put((byte)1, "E minor"); // sharps
-        put((byte)2, "B minor");
-        put((byte)3, "F# minor");
-        put((byte)4, "C# minor");
-        put((byte)5, "G# minor");
-        put((byte)6, "D# minor");
-        put((byte)7, "A# minor");
+    private static final Map<Byte, String[]> keys = new HashMap<Byte, String[]>() {{
+        // flats
+        put((byte)-7, new String[]{"Cb Major", "Ab minor"});
+        put((byte)-6, new String[]{"Gb Major", "Eb minor"});
+        put((byte)-5, new String[]{"Db Major", "Bb minor"});
+        put((byte)-4, new String[]{"Ab Major", "F minor"});
+        put((byte)-3, new String[]{"Eb Major", "C minor"});
+        put((byte)-2, new String[]{"Bb Major", "G minor"});
+        put((byte)-1, new String[]{"F Major", "D minor"});
+        put((byte)0, new String[]{"C Major", "A minor"});
+        // sharps
+        put((byte)1, new String[]{"G Major", "E minor"});
+        put((byte)2, new String[]{"D Major", "B minor"});
+        put((byte)3, new String[]{"A Major", "F# minor"});
+        put((byte)4, new String[]{"E Major", "C# minor"});
+        put((byte)5, new String[]{"B Major", "G# minor"});
+        put((byte)6, new String[]{"F# Major", "D# minor"});
+        put((byte)7, new String[]{"C# Major", "A# minor"});
     }};
 
-    private static final Map<Byte, String> majorKeys = new HashMap<Byte, String>() {{
-        put((byte)-7, "Cb Major"); // flats
-        put((byte)-6, "Gb Major");
-        put((byte)-5, "Db Major");
-        put((byte)-4, "Ab Major");
-        put((byte)-3, "Eb Major");
-        put((byte)-2, "Bb Major");
-        put((byte)-1, "F Major");
-        put((byte)0, "C Major");
-        put((byte)1, "G Major"); // sharps
-        put((byte)2, "D Major");
-        put((byte)3, "A Major");
-        put((byte)4, "E Major");
-        put((byte)5, "B Major");
-        put((byte)6, "F# Major");
-        put((byte)7, "C# Major");
-    }};
 
     /**
      *
@@ -58,20 +43,15 @@ public class KeySignature {
     public String getKey() {
 
         if (isMajor) {
-            return majorKeys.get(byteKey);
+            return keys.get(byteKey)[0];
         }
         else {
-            return minorKeys.get(byteKey);
+            return keys.get(byteKey)[1];
         }
     }
 
-
-    public static Map<Byte, String> getMinorKeys() {
-        return minorKeys;
-    }
-
-    public static Map<Byte, String> getMajorKeys() {
-        return majorKeys;
+    public static Map<Byte, String[]> getKeys() {
+        return keys;
     }
 
     public boolean isMajor() {

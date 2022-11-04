@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 import static org.project.utility.Utility.bytesToInt;
 
-public class Parser {
+public class  Parser {
 
     private LogsManager log;
     private String inputPath;
