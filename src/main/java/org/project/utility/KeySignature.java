@@ -42,12 +42,9 @@ public class KeySignature {
 
     public String getKey() {
 
-        if (isMajor) {
-            return keys.get(byteKey)[0];
-        }
-        else {
-            return keys.get(byteKey)[1];
-        }
+        if (isMajor) return keys.get(byteKey)[0];
+
+        return keys.get(byteKey)[1];
     }
 
     public static Map<Byte, String[]> getKeys() {
