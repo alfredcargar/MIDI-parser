@@ -7,19 +7,21 @@ import static org.project.utility.Utility.*;
 
 public class MidiTrack {
 
-    private static final byte[] ID = {77, 84, 114, 107};
+    protected static final byte[] ID = {77, 84, 114, 107};
     private List<Byte> content;
     private Integer length;
     private List<TrackEvent> MTrk_Events;
 
+    public MidiTrack() {
+
+    }
     public MidiTrack(List<Byte> data) {
         content = data;
         MTrk_Events = new ArrayList<>();
-        this.split();
     }
 
 
-    /**
+    /** TODO
      * splits the content into class fields, from the 9th byte
      */
     public void split() {
@@ -38,6 +40,8 @@ public class MidiTrack {
 
     public void splitEvents(List<Byte> listOfEvents) {
 
+        if (listOfEvents.isEmpty()) return;
+
         Event event = new Event();
         List<Byte> content = new ArrayList<>();
         int[] event_length;
@@ -49,6 +53,22 @@ public class MidiTrack {
         switch (event.getID()) {
             case -1: // FF event
                 event.setType(listOfEvents.get(1));
+
+                // base case: FF 2F 00 defines the end of the track
+                if (event.getType() == 47) {
+                    content.add(listOfEvents.get(0));
+                    content.add(listOfEvents.get(1));
+                    content.add(listOfEvents.get(2));
+                    event.setContent(content);
+                    event.setLength(3);
+                    TrackEvent trackEvent = new TrackEvent();
+                    trackEvent.setDelta_time(delta_time[0]);
+                    trackEvent.setEvent(event);
+                    this.MTrk_Events.add(trackEvent);
+                    listOfEvents = listOfEvents.subList(3, listOfEvents.size()); // should be 0
+                    return;
+                }
+
                 listOfEvents = listOfEvents.subList(2, listOfEvents.size());
                 event_length = computeVLV(listOfEvents);
                 event.setLength(event_length[0]);
@@ -75,6 +95,8 @@ public class MidiTrack {
                 }
                 listOfEvents = listOfEvents.subList(1, listOfEvents.size());
                 break;
+
+                // temporarily don't process and put everything together
         }
 
 
@@ -90,11 +112,10 @@ public class MidiTrack {
         trackEvent.setEvent(event);
         this.MTrk_Events.add(trackEvent);
 
-        // base case: FF 2F 00 defines the end of the track
-        if (event.getID() == -1 && event.getType() == 47) return;
-
         // truncate the input and recursive call
         listOfEvents = listOfEvents.subList(content.size(), listOfEvents.size());
+
+        // todo causes stackoverflow ERROR, increase the stack size using -Xss flag
         splitEvents(listOfEvents);
     }
 
@@ -109,6 +130,10 @@ public class MidiTrack {
 
     public void setContent(List<Byte> content) {
         this.content = content;
+    }
+
+    public List<Byte> getContent() {
+        return content;
     }
 
     public Integer getLength() {

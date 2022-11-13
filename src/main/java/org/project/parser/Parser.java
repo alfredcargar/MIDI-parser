@@ -1,6 +1,7 @@
 package org.project.parser;
 
 import org.project.SMF.MIDI;
+import org.project.SMF.MidiTrack;
 import org.project.SMF.TrackEvent;
 import org.project.utility.KeySignature;
 import org.project.utility.LogsManager;
@@ -39,6 +40,19 @@ public class  Parser {
         }
         log.info("MIDI file read successfully.");
 
+        // split tracks
+        midiFile.splitTracks(midiFile.getMidiTracks());
+
+        // split events individually to avoid stack overflow
+        MidiTrack track1 = midiFile.getTracks().get(0);
+        track1.split();
+        MidiTrack track2 = midiFile.getTracks().get(1);
+        track2.split();
+        MidiTrack track3 = midiFile.getTracks().get(2);
+        track3.split();
+
+        // todo: routine for MIDI notes info
+
         JSON json = new JSON();
         String trackName = "";
         String copyright = "";
@@ -49,7 +63,7 @@ public class  Parser {
         String key = "";
 
 
-        for (TrackEvent event : midiFile.getTracks().get(0).getMTrk_Events()) {
+        for (TrackEvent event : track1.getMTrk_Events()) {
             if (event.getEvent().getID() == -1) {
                 byte[] arr = new byte[event.getEvent().getLength()];
                 sliceByteArray(arr, event);
@@ -83,7 +97,7 @@ public class  Parser {
         BPM = String.valueOf(bpm);
         BPM = formatter.format(Double.valueOf(BPM)) + " bpm";
 
-        for (TrackEvent event : midiFile.getTracks().get(1).getMTrk_Events()) {
+        for (TrackEvent event : track2.getMTrk_Events()) {
 
             if (event.getEvent().getID() == -1) {
                 byte[] arr = new byte[event.getEvent().getLength()];

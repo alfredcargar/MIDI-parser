@@ -1,3 +1,3 @@
-[INFO] 2022-11-04 15:07:43 [main] - Reading MIDI file: C:/Projects/MIDI-parser/files/fur_elise.mid
-[INFO] 2022-11-04 15:07:43 [main] - MIDI file read successfully.
-[INFO] 2022-11-04 15:07:43 [main] - Output created successfully: C:/Projects/MIDI-parser/output/fur_elise.json
+[INFO] 2022-11-13 11:41:31 [main] - Reading MIDI file: C:/Projects/MIDI-parser/files/fur_elise.mid
+[INFO] 2022-11-13 11:41:31 [main] - MIDI file read successfully.
+[INFO] 2022-11-13 11:43:10 [main] - Output created successfully: C:/Projects/MIDI-parser/output/fur_elise.json

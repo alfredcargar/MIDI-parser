@@ -1,6 +1,7 @@
 package org.project.SMF;
 
 import org.project.utility.LogsManager;
+import org.project.utility.Utility;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,13 +17,16 @@ import java.util.List;
 public class MIDI {
 
     private MidiHeader header;
-    private ArrayList<MidiTrack> tracks;
+    private List<Byte> midiTracks; // contains all the tracks raw
+
+    private ArrayList<MidiTrack> tracks; // contains the tracks sorted
     private byte[] content;
     private File file;
 
 
     public MIDI(File file) {
         this.file = file;
+        this.tracks = new ArrayList<>();
     }
 
     public void readFile(LogsManager log) {
@@ -44,8 +48,7 @@ public class MIDI {
         }
 
         header = new MidiHeader(headerData);
-        tracks = new ArrayList<>();
-        splitTracks(trackData);
+        midiTracks = trackData;
     }
 
     /**
@@ -53,8 +56,8 @@ public class MIDI {
      */
     public boolean validate() {
 
-        for (int i = 0; i < MidiHeader.getID().length; i++) {
-            if (content[i] != MidiHeader.getID()[i]) {
+        for (int i = 0; i < MidiHeader.ID.length; i++) {
+            if (content[i] != MidiHeader.ID[i]) {
                 return false;
             }
         }
@@ -73,7 +76,6 @@ public class MIDI {
         List<Byte> content = new ArrayList<>();
 
         // the length of each chunk is defined in the second group of 4 bytes
-        // todo: check
         String hex = String.format("%02X", trackData.get(4))
                 .concat(String.format("%02X", trackData.get(5)))
                 .concat(String.format("%02X", trackData.get(6)))
@@ -81,14 +83,18 @@ public class MIDI {
 
         int length = Integer.parseInt(hex, 16);
 
-        // read input from 0 to length+8, set it as content of midiTrack
+         if (length > trackData.size()) {
+            length = trackData.size();
+        }
 
+        // read input from 0 to length+8, set it as content of midiTrack
         for (int i = 0; i < length + 8; i++) {
             content.add(trackData.get(i));
         }
 
         // sets the content and add to list
         MidiTrack midiTrack = new MidiTrack(content);
+        // after splitEvents has terminated
         midiTrack.setLength(length);
         this.tracks.add(midiTrack);
 
@@ -105,6 +111,10 @@ public class MIDI {
 
     public void setHeader(MidiHeader header) {
         this.header = header;
+    }
+
+    public List<Byte> getMidiTracks() {
+        return midiTracks;
     }
 
     public List<MidiTrack> getTracks() {

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class MidiHeader {
 
-    private static final byte[] ID = {77, 84, 104, 100};
+    protected static final byte[] ID = {77, 84, 104, 100};
     private List<Byte> content;
     private Integer length; // always 6
     private Integer format; // 0, 1 or 2

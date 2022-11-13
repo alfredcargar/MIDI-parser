@@ -28,6 +28,7 @@ public class Utility {
 
         List<Byte> vlv = new ArrayList<>();
 
+        // todo stackoverflow ex
         for (Byte b : data) {
             if (vlv.size() == 4) break;
             vlv.add(b);
@@ -41,7 +42,7 @@ public class Utility {
     /**
      * formats a byte array in hexadecimal
      * @param input byte array
-     * @return
+     * @return array string in hex
      */
     public static String[] byteToHex(byte[] input) {
 

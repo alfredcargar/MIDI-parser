@@ -12,7 +12,6 @@ public class LogsManager {
     private static final Logger logger = LogManager.getLogger(LogsManager.class);
     private ArrayList<String> infoLog = new ArrayList<>();
     private ArrayList<String> errorLog = new ArrayList<>();
-    //todo
 
     public void info(String log) {
         logger.log(Level.INFO, log);
